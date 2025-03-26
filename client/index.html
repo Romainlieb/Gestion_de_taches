@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestionnaire de Tâches</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Gestionnaire de Tâches</h1>
+
+      <div class="filters">
+        <input type="text" id="search" placeholder="Rechercher..." />
+        <select id="status-filter">
+          <option value="">Tous statuts</option>
+          <option value="à faire">À faire</option>
+          <option value="en cours">En cours</option>
+          <option value="terminée">Terminée</option>
+          <option value="annulée">Annulée</option>
+        </select>
+        <select id="priority-filter">
+          <option value="">Toutes priorités</option>
+          <option value="basse">Basse</option>
+          <option value="moyenne">Moyenne</option>
+          <option value="haute">Haute</option>
+          <option value="critique">Critique</option>
+        </select>
+        <button id="apply-filters">Filtrer</button>
+        <button id="reset-filters">Réinitialiser</button>
+      </div>
+
+      <div class="task-list" id="task-list">
+        <!-- Les tâches apparaîtront ici -->
+        <div class="task-placeholder">
+          <p>Chargement des tâches...</p>
+        </div>
+      </div>
+
+      <button id="add-task-btn" class="primary-btn">+ Ajouter une tâche</button>
+
+      <!-- Modal -->
+      <div id="task-modal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2 id="modal-title">Nouvelle Tâche</h2>
+          <form id="task-form">
+            <input type="hidden" id="task-id" />
+            <input type="hidden" id="author-name" value="Dupont" />
+            <input type="hidden" id="author-firstname" value="Jean" />
+            <input
+              type="hidden"
+              id="author-email"
+              value="jean.dupont@example.com"
+            />
+
+            <div class="form-group">
+              <label for="title">Titre*</label>
+              <input type="text" id="title" required />
+            </div>
+
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description" rows="3"></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="status">Statut</label>
+                <select id="status">
+                  <option value="à faire">À faire</option>
+                  <option value="en cours">En cours</option>
+                  <option value="terminée">Terminée</option>
+                  <option value="annulée">Annulée</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="priority">Priorité</label>
+                <select id="priority">
+                  <option value="basse">Basse</option>
+                  <option value="moyenne">Moyenne</option>
+                  <option value="haute">Haute</option>
+                  <option value="critique">Critique</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="due-date">Échéance</label>
+              <input type="date" id="due-date" />
+            </div>
+
+            <button type="submit" class="primary-btn">Enregistrer</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
