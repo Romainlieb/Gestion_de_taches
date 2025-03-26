@@ -83,7 +83,23 @@ const TaskSchema = new mongoose.Schema(
     categorie: {
       type: String,
       enum: ["perso", "travail", "projet", "formation", "autre"],
-      default: "perso",
+      required: true,
+      validate: {
+        validator: function (v) {
+          return (
+            v !== "autre" ||
+            (this.customCategory && this.customCategory.length >= 3)
+          );
+        },
+        message:
+          "Quand 'autre' est sélectionné, une catégorie personnalisée de 3 caractères minimum est requise",
+      },
+    },
+    customCategory: {
+      type: String,
+      required: function () {
+        return this.categorie === "autre";
+      },
     },
     etiquettes: {
       type: [String],

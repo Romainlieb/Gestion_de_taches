@@ -1,208 +1,430 @@
 /* Reset de base */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f5f5f5;
-    padding: 20px;
-  }
-  
-  .container {
-    max-width: 1000px;
-    margin: 0 auto;
-    background: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  h1 {
-    color: #2c3e50;
-    margin-bottom: 20px;
-    text-align: center;
-  }
-  
-  /* Filtres */
-  .filters {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  
-  .filters input, .filters select {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .filters button {
-    padding: 8px 16px;
-    background-color: #3498db;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .filters button:hover {
-    background-color: #2980b9;
-  }
-  
-  /* Liste des tâches */
-  .task-list {
-    margin-bottom: 30px;
-  }
-  
-  .task {
-    background: white;
-    border-left: 4px solid #3498db;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 4px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s;
-  }
-  
-  .task:hover {
-    transform: translateY(-2px);
-  }
-  
-  .task h3 {
-    color: #2c3e50;
-    margin-bottom: 5px;
-  }
-  
-  .task p {
-    margin: 5px 0;
-    color: #7f8c8d;
-    font-size: 14px;
-  }
-  
-  .task-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  /* Boutons */
-  button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s;
-  }
-  
-  .primary-btn {
-    background-color: #2ecc71;
-    color: white;
-  }
-  
-  .primary-btn:hover {
-    background-color: #27ae60;
-  }
-  
-  .edit-btn {
-    background-color: #f39c12;
-    color: white;
-  }
-  
-  .edit-btn:hover {
-    background-color: #d35400;
-  }
-  
-  .delete-btn {
-    background-color: #e74c3c;
-    color: white;
-  }
-  
-  .delete-btn:hover {
-    background-color: #c0392b;
-  }
-  
-  /* Modal */
-  .modal {
-    display: none;
-    position: fixed;
-    z-index: 100;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .modal-content {
-    background-color: white;
-    margin: 10% auto;
-    padding: 25px;
-    width: 90%;
-    max-width: 500px;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  }
-  
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-  }
-  
-  .close:hover {
-    color: #333;
-  }
-  
-  /* Formulaires */
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  .form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 500;
-  }
-  
-  .form-group input,
-  .form-group select,
-  .form-group textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-  }
-  
-  .form-group textarea {
-    min-height: 80px;
-    resize: vertical;
-  }
-  
-  .form-row {
-    display: flex;
-    gap: 15px;
-  }
-  
-  .form-row .form-group {
-    flex: 1;
-  }
-  
-  /* Placeholder */
-  .task-placeholder {
-    text-align: center;
-    padding: 30px;
-    color: #7f8c8d;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f5f5f5;
+  padding: 20px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Filtres */
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filters input,
+.filters select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.filters button {
+  padding: 8px 16px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.filters button:hover {
+  background-color: #2980b9;
+}
+
+/* Liste des tâches */
+.task-list {
+  margin-bottom: 30px;
+}
+
+.task {
+  background: white;
+  border-left: 4px solid #3498db;
+  padding: 15px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.task:hover {
+  transform: translateY(-2px);
+}
+
+.task h3 {
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.task p {
+  margin: 5px 0;
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+.task-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+/* Boutons */
+button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.primary-btn {
+  background-color: #2ecc71;
+  color: white;
+}
+
+.primary-btn:hover {
+  background-color: #27ae60;
+}
+
+.edit-btn {
+  background-color: #f39c12;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #d35400;
+}
+
+.delete-btn {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #c0392b;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 1000;
+}
+
+.modal-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  width: 100%;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.form-container {
+  flex-grow: 1;
+  margin-bottom: 20px;
+}
+
+.modal-actions {
+  margin-top: auto;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #333;
+}
+
+/* Formulaires */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+/* Placeholder */
+.task-placeholder {
+  text-align: center;
+  padding: 30px;
+  color: #7f8c8d;
+}
+
+.author-info {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+  font-size: 0.85em;
+}
+
+.author-info small {
+  display: block;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Styles pour les catégories */
+.category {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  text-transform: capitalize;
+}
+
+.category.perso {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+.category.travail {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+.category.projet {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+.category.formation {
+  background: #f3e5f5;
+  color: #9c27b0;
+}
+.category.autre {
+  background: #f0f0f0;
+  color: #666;
+  border: 1px dashed #999;
+  font-style: italic;
+}
+
+/* Rendre le texte en italique pour "autre" */
+.category.autre i {
+  color: #999;
+}
+
+.task-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+  font-size: 0.85em;
+}
+
+.meta-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.category,
+.status,
+.priority,
+.creation-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-radius: 20px;
+}
+
+.creation-date {
+  background: #f0f0f0;
+  color: #666;
+}
+
+/* Icônes */
+.fas,
+.far {
+  font-size: 0.9em;
+}
+
+/* Couleurs des statuts */
+.status.à\ faire {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+.status.en\ cours {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+.status.terminée {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+.status.annulée {
+  background: #ffebee;
+  color: #c62828;
+}
+
+/* Couleurs des priorités */
+.priority.basse {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+.priority.moyenne {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+.priority.haute {
+  background: #ffebee;
+  color: #c62828;
+}
+.priority.critique {
+  background: #f3e5f5;
+  color: #9c27b0;
+}
+
+.hidden {
+  display: none;
+}
+
+#custom-category {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Styles des dates d'échéance */
+.due-date {
+  font-size: 0.9em;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.due-date i {
+  margin-right: 5px;
+}
+
+.future-due {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.past-due {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.past-due i {
+  color: #c62828;
+}
+
+.future-due i {
+  color: #1976d2;
+}
+
+/* Ajuster les couleurs des nouvelles icônes */
+.fa-calendar-alt {
+  color: #1976d2; /* Bleu pour les échéances futures */
+}
+
+.past-due .fa-exclamation-triangle {
+  color: #c62828; /* Rouge pour les échéances dépassées */
+}
+
+.task-tags {
+  margin-top: 10px;
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tag {
+  background: #e0e0e0;
+  color: #424242;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.8em;
+  display: inline-block !important;
+  align-items: center;
+}
+
+.tag::before {
+  content: "#";
+  margin-right: 2px;
+  color: #757575;
+}

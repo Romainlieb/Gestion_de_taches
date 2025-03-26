@@ -1,0 +1,7 @@
+await Task.create([
+  {
+    titre: "Tâche exemple avec étiquettes",
+    etiquettes: ["urgent", "client-important"],
+    // ... autres champs ...
+  }
+]); 

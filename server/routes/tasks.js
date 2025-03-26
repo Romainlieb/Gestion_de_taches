@@ -25,7 +25,12 @@ router.get("/", async (req, res) => {
       ];
     }
 
-    const tasks = await Task.find(query).sort({ createdAt: -1 }).lean();
+    const tasks = await Task.find(query)
+      .sort({ createdAt: -1 })
+      .select(
+        "titre description dateCreation echeance statut priorite categorie customCategory auteur etiquettes"
+      )
+      .lean();
 
     res.json(tasks); // Envoyer toujours un tableau même vide
   } catch (err) {
@@ -182,11 +187,11 @@ module.exports = router;
 // Array de Strings
 // Liste de mots-clés
 // sousTaches
-// Tableau d’objets
+// Tableau d'objets
 // titre, statut, échéance (facultatif)
 // commentaires
-// Tableau d’objets
+// Tableau d'objets
 // auteur, date, contenu
 // historiqueModifications
-// Tableau d’objets
+// Tableau d'objets
 // champModifie, ancienneValeur, nouvelleValeur, date

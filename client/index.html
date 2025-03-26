@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gestionnaire de Tâches</title>
     <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
   </head>
   <body>
     <div class="container">
@@ -41,58 +45,105 @@
 
       <!-- Modal -->
       <div id="task-modal" class="modal">
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <h2 id="modal-title">Nouvelle Tâche</h2>
-          <form id="task-form">
-            <input type="hidden" id="task-id" />
-            <input type="hidden" id="author-name" value="Dupont" />
-            <input type="hidden" id="author-firstname" value="Jean" />
-            <input
-              type="hidden"
-              id="author-email"
-              value="jean.dupont@example.com"
-            />
+        <div class="modal-wrapper">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Nouvelle Tâche</h2>
+            <form id="task-form">
+              <div class="form-container">
+                <input type="hidden" id="task-id" />
 
-            <div class="form-group">
-              <label for="title">Titre*</label>
-              <input type="text" id="title" required />
-            </div>
+                <!-- Remplacer les champs cachés par des champs visibles -->
+                <div class="form-group">
+                  <label for="author-name">Nom de l'auteur*</label>
+                  <input type="text" id="author-name" required />
+                </div>
 
-            <div class="form-group">
-              <label for="description">Description</label>
-              <textarea id="description" rows="3"></textarea>
-            </div>
+                <div class="form-group">
+                  <label for="author-firstname">Prénom de l'auteur*</label>
+                  <input type="text" id="author-firstname" required />
+                </div>
 
-            <div class="form-row">
-              <div class="form-group">
-                <label for="status">Statut</label>
-                <select id="status">
-                  <option value="à faire">À faire</option>
-                  <option value="en cours">En cours</option>
-                  <option value="terminée">Terminée</option>
-                  <option value="annulée">Annulée</option>
-                </select>
+                <div class="form-group">
+                  <label for="author-email">Email de l'auteur*</label>
+                  <input type="email" id="author-email" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="title">Titre*</label>
+                  <input type="text" id="title" required />
+                </div>
+
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea id="description" rows="3"></textarea>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="status">Statut</label>
+                    <select id="status">
+                      <option value="à faire">À faire</option>
+                      <option value="en cours">En cours</option>
+                      <option value="terminée">Terminée</option>
+                      <option value="annulée">Annulée</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="priority">Priorité</label>
+                    <select id="priority">
+                      <option value="basse">Basse</option>
+                      <option value="moyenne">Moyenne</option>
+                      <option value="haute">Haute</option>
+                      <option value="critique">Critique</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="due-date">Échéance</label>
+                  <input type="date" id="due-date" />
+                </div>
+
+                <div class="form-group">
+                  <label for="category">Catégorie</label>
+                  <select id="category" onchange="toggleCustomCategory()">
+                    <option value="perso">Personnel</option>
+                    <option value="travail">Travail</option>
+                    <option value="projet">Projet</option>
+                    <option value="formation">Formation</option>
+                    <option value="autre">Autre (précisez)</option>
+                  </select>
+                  <input
+                    type="text"
+                    id="custom-category"
+                    class="hidden"
+                    placeholder="Entrez votre catégorie"
+                    style="margin-top: 5px"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="tags"
+                    >Étiquettes (séparées par des virgules)</label
+                  >
+                  <input
+                    type="text"
+                    id="tags"
+                    placeholder="ex: urgent, projetX, clientY"
+                  />
+                </div>
               </div>
 
-              <div class="form-group">
-                <label for="priority">Priorité</label>
-                <select id="priority">
-                  <option value="basse">Basse</option>
-                  <option value="moyenne">Moyenne</option>
-                  <option value="haute">Haute</option>
-                  <option value="critique">Critique</option>
-                </select>
+              <div class="modal-actions">
+                <button type="submit" class="primary-btn" id="submit-btn">
+                  Enregistrer
+                  <!-- Texte par défaut -->
+                </button>
               </div>
-            </div>
-
-            <div class="form-group">
-              <label for="due-date">Échéance</label>
-              <input type="date" id="due-date" />
-            </div>
-
-            <button type="submit" class="primary-btn">Enregistrer</button>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
     </div>

@@ -1,3 +1,22 @@
+// Ajouter cette fonction EN HAUT du fichier
+function getCategoryLabel(value) {
+  const labels = {
+    perso: "Personnel",
+    travail: "Travail",
+    projet: "Projet",
+    formation: "Formation",
+    autre: "Autre",
+  };
+  return labels[value] || value;
+}
+
+// Ajouter cette fonction
+function toggleCustomCategory() {
+  const categorySelect = document.getElementById("category");
+  const customInput = document.getElementById("custom-category");
+  customInput.classList.toggle("hidden", categorySelect.value !== "autre");
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   // Éléments DOM
   const taskList = document.getElementById("task-list");
@@ -75,16 +94,75 @@ document.addEventListener("DOMContentLoaded", () => {
       taskElement.className = "task";
       taskElement.innerHTML = `
           <h3>${task.titre}</h3>
-          <p><strong>Statut:</strong> ${task.statut}</p>
-          <p><strong>Priorité:</strong> ${task.priorite}</p>
+          <div class="task-meta">
+            <div class="meta-group">
+              ${
+                task.customCategory
+                  ? `
+                <span class="category autre">
+                  <i class="fas fa-tag"></i> ${task.customCategory}
+                </span>
+              `
+                  : `
+                <span class="category ${task.categorie}">
+                  <i class="fas fa-tag"></i> ${getCategoryLabel(task.categorie)}
+                </span>
+              `
+              }
+              <span class="creation-date">
+                <i class="far fa-calendar-plus"></i> ${new Date(
+                  task.dateCreation
+                ).toLocaleDateString()}
+              </span>
+            </div>
+            <div class="meta-group">
+              <span class="status ${task.statut}">
+                <i class="fas fa-circle"></i> ${task.statut}
+              </span>
+              <span class="priority ${task.priorite}">
+                <i class="fas fa-exclamation-circle"></i> ${task.priorite}
+              </span>
+            </div>
+          </div>
           ${
             task.echeance
-              ? `<p><strong>Échéance:</strong> ${new Date(
-                  task.echeance
-                ).toLocaleDateString()}</p>`
+              ? `<div class="due-date ${
+                  isPastDue(task.echeance) ? "past-due" : "future-due"
+                }">
+                  <i class="far ${
+                    isPastDue(task.echeance)
+                      ? "fa-exclamation-triangle"
+                      : "fa-calendar-alt"
+                  }"></i>
+                  Échéance: ${new Date(task.echeance).toLocaleDateString()}
+                  ${isPastDue(task.echeance) ? " (Échue)" : ""}
+                </div>`
               : ""
           }
           ${task.description ? `<p>${task.description}</p>` : ""}
+          ${
+            task.etiquettes?.length > 0
+              ? `
+            <div class="task-tags">
+              ${task.etiquettes
+                .map(
+                  (tag) => `
+                <span class="tag">${tag}</span>
+              `
+                )
+                .join(" ")}
+            </div>
+          `
+              : ""
+          }
+          
+          <!-- Modification de la section auteur -->
+          <div class="author-info">
+            <small>Auteur: ${task.auteur?.prenom || "Inconnu"} ${
+        task.auteur?.nom || ""
+      }</small>
+            <small>Email: ${task.auteur?.email || "Non renseigné"}</small>
+          </div>
           
           <div class="task-actions">
             <button class="edit-btn" data-id="${task._id}">Modifier</button>
@@ -142,6 +220,15 @@ document.addEventListener("DOMContentLoaded", () => {
           "ID stocké dans la variable globale:",
           currentEditingTaskId
         );
+
+        // Dans la fonction openModal, après avoir rempli les champs :
+        if (taskId) {
+          // Mode édition
+          document.getElementById("submit-btn").textContent = "Mettre à jour";
+        } else {
+          // Mode création
+          document.getElementById("submit-btn").textContent = "Créer la tâche";
+        }
       }
     } else {
       // Mode création
@@ -201,17 +288,22 @@ document.addEventListener("DOMContentLoaded", () => {
   taskForm.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    // Utiliser la variable globale
-    const taskId = currentEditingTaskId;
+    const categorySelect = document.getElementById("category").value;
+    const customValue = document.getElementById("custom-category").value.trim();
+    const tags = document
+      .getElementById("tags")
+      .value.split(",")
+      .map((t) => t.trim())
+      .filter((t) => t);
 
-    console.log("ID au moment de la soumission:", taskId);
-
-    // Construire les données
     const formData = {
       titre: document.getElementById("title").value,
       description: document.getElementById("description").value,
       statut: document.getElementById("status").value,
       priorite: document.getElementById("priority").value,
+      categorie: categorySelect,
+      ...(categorySelect === "autre" && { customCategory: customValue }),
+      etiquettes: tags,
     };
 
     // Ajouter la date si elle existe
@@ -219,20 +311,31 @@ document.addEventListener("DOMContentLoaded", () => {
       formData.echeance = document.getElementById("due-date").value;
     }
 
-    // Ajouter l'auteur UNIQUEMENT en création
-    if (!taskId) {
+    // Ajouter l'auteur OBLIGATOIREMENT en création
+    if (!currentEditingTaskId) {
       formData.auteur = {
-        nom: document.getElementById("author-name").value,
-        prenom: document.getElementById("author-firstname").value,
-        email: document.getElementById("author-email").value,
+        nom: document.getElementById("author-name").value.trim(),
+        prenom: document.getElementById("author-firstname").value.trim(),
+        email: document.getElementById("author-email").value.trim(),
       };
+
+      // Validation basique
+      if (
+        !formData.auteur.nom ||
+        !formData.auteur.prenom ||
+        !formData.auteur.email
+      ) {
+        alert("Tous les champs de l'auteur sont obligatoires");
+        return;
+      }
     }
 
     // Déterminer la méthode
-    const isEditMode = taskId && taskId.trim() !== "";
+    const isEditMode =
+      currentEditingTaskId && currentEditingTaskId.trim() !== "";
     const method = isEditMode ? "PUT" : "POST";
     const url = isEditMode
-      ? `http://localhost:3001/tasks/${taskId}`
+      ? `http://localhost:3001/tasks/${currentEditingTaskId}`
       : "http://localhost:3001/tasks";
 
     console.log(
@@ -241,7 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("URL:", url);
 
     // Pour debug
-    console.log({ taskId, method, url, formData });
+    console.log({ currentEditingTaskId, method, url, formData });
 
     // Envoyer la requête
     const xhr = new XMLHttpRequest();
@@ -267,4 +370,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     xhr.send(JSON.stringify(formData));
   });
+
+  // Ajouter cette fonction d'utilité
+  function isPastDue(dueDate) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return new Date(dueDate) < today;
+  }
 });
